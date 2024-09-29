@@ -5,24 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model
+class TipoDocumento extends Model
 {
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
         'nombre',
+        'digitos',
     ];
-
-    protected $hidden = [
-
-    ];
-
-    protected $casts = [
-
-    ];
-
-    /**
-     * A resource key to be used in the serialized responses.
-     */
-    protected string $resourceKey = 'Categoria';
 }

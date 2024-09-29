@@ -3,16 +3,16 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\UserResource\Pages;
+use App\Models\Empleado;
+use App\Models\Establecimiento;
 use App\Models\User;
 use App\Settings\MailSettings;
 use Exception;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Notifications\Auth\VerifyEmail;
 use Filament\Notifications\Notification;
@@ -21,9 +21,11 @@ use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Wallo\FilamentSelectify\Components\ToggleButton;
 
 class UserResource extends Resource
 {
@@ -35,112 +37,6 @@ class UserResource extends Resource
     protected static ?string $navigationGroup = 'Access';
 
     public static function form(Form $form): Form
-    {
-        return $form->schema([
-            Wizard::make([
-                Wizard\Step::make('hola')
-                    ->description('test')
-                    ->schema([
-                        Section::make('testeando')
-                            ->description('sdfsdf')
-                            ->schema([
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                            ])
-                            ->columns(null),
-                        Section::make('testeando')
-                            ->description('sdfsdf')
-                            ->schema([
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                            ])
-                            ->columns(null),
-                        Section::make('testeando')
-                            ->description('sdfsdf')
-                            ->schema([
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                            ])
-                            ->columns(null),
-                    ]),
-                Wizard\Step::make('hodfgsdgdf')
-                    ->description('sdfgsdf')
-                    ->schema([
-                        Section::make('testeando')
-                            ->description('sdfsdf')
-                            ->schema([
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                            ])
-                            ->columns(null),
-                        Section::make('testeando')
-                            ->description('sdfsdf')
-                            ->schema([
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                            ])
-                            ->columns(null),
-                        Section::make('testeando')
-                            ->description('sdfsdf')
-                            ->schema([
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                            ])
-                            ->columns(null),
-                        Section::make('testeando')
-                            ->description('sdfsdf')
-                            ->schema([
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                                Forms\Components\TextInput::make('hola'),
-                            ])
-                            ->columns(null),
-                        Forms\Components\TextInput::make('hola'),
-                        Forms\Components\Textarea::make('sdfsdf'),
-                        Forms\Components\Textarea::make('sdfsdf'),
-                        Forms\Components\Textarea::make('sdfsdf'),
-                        Forms\Components\Textarea::make('sdfsdf'),
-                        Forms\Components\Textarea::make('sdfsdf'),
-                        Forms\Components\Textarea::make('sdfsdf'),
-                    ]),
-            ]),
-        ]);
-    }
-    public static function form2(Form $form): Form
     {
         return $form
             ->schema([
@@ -154,17 +50,61 @@ class UserResource extends Resource
                                     ->collection('avatars')
                                     ->alignCenter()
                                     ->columnSpanFull(),
+                                // ToggleButton::make('tipo_usuario')
+                                //     ->label('Tipo de Usuario')
+                                //     ->offColor('danger')
+                                //     ->onColor('primary')
+                                //     ->offLabel('Proveedor')
+                                //     ->onLabel('Empleado')
+                                //     ->visibleOn('create')
+                                //     ->afterStateUpdated(fn($state, Forms\Set $set) => $state ? $set('proveedor_id', null) : $set('establecimiento_id', null))
+                                //     ->dehydrated(false)
+                                //     ->live(),
+                                // Forms\Components\Select::make('proveedor_id')
+                                //     ->relationship('proveedor', 'razon_social')
+                                //     ->searchable()
+                                //     ->unique(ignoreRecord: true)
+                                //     ->visible(fn(Forms\Get $get, ?User $record) => $record ? isset ($record->proveedor_id) : !$get('tipo_usuario'))
+                                //     ->disabledOn('edit')
+                                //     ->lazy()
+                                //     ->required(),
+                                Forms\Components\Select::make('establecimiento_id')
+                                    ->label('Establecimiento')
+                                    ->options(fn() => Establecimiento::get()->pluck('nombre', 'id'))
+                                    ->afterStateUpdated(function (Forms\Set $set) {
+                                        $set('empleado_id', null);
+                                    })
+                                    ->searchable()
+                                    ->disabledOn('edit')
+                                    ->live()
+                                    ->lazy(),
+                                Forms\Components\Select::make('empleado_id')
+                                    ->label('Empleado')
+                                    ->options(function (?User $record, Forms\Get $get, Forms\Set $set) {
+                                        if (!empty($record) && empty($get('establecimiento_id'))) {
+                                            $set('establecimiento_id', $record->empleado->establecimiento_id);
+                                        }
+
+                                        return Empleado::where('establecimiento_id', $get('establecimiento_id'))->pluck('nombres', 'id');
+                                    })
+                                    ->unique('users', 'empleado_id', ignoreRecord: true)
+                                    ->searchable()
+                                    ->disabledOn('edit')
+                                    ->lazy()
+                                    ->required(),
                                 Forms\Components\TextInput::make('username')
                                     ->required()
+                                    ->unique(ignoreRecord: true)
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('email')
                                     ->email()
+                                    ->unique(ignoreRecord: true)
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('firstname')
+                                Forms\Components\TextInput::make('nombre_completo')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('lastname')
+                                Forms\Components\TextInput::make('cargo')
                                     ->required()
                                     ->maxLength(255),
                             ]),
@@ -183,7 +123,7 @@ class UserResource extends Resource
                                     ->getOptionLabelFromRecordUsing(fn(Model $record) => Str::headline($record->name))
                                     ->multiple()
                                     ->preload()
-                                    ->maxItems(1)
+                                    // ->maxItems(1)
                                     ->native(false),
                             ])
                             ->compact(),
@@ -246,11 +186,13 @@ class UserResource extends Resource
                     ->formatStateUsing(fn($state): string => Str::headline($state))
                     ->colors(['info'])
                     ->badge(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')->label('Verified at')
-                    ->dateTime()
+                Tables\Columns\TextColumn::make('empleado.establecimiento.nombre')
                     ->sortable(),
+                // Tables\Columns\TextColumn::make('email')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('email_verified_at')->label('Verified at')
+                //     ->dateTime()
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

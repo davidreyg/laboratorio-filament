@@ -32,9 +32,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
     protected $fillable = [
         'username',
         'email',
-        'firstname',
-        'lastname',
+        'nombre_completo',
+        'cargo',
         'password',
+        'empleado_id',
     ];
 
     /**
@@ -59,18 +60,16 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
 
     public function getFilamentName(): string
     {
-        return $this->username;
+        return $this->nombre_completo;
     }
-
     public function canAccessPanel(Panel $panel): bool
     {
-        // if ($panel->getId() === 'admin') {
-        //     return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
-        // }
-
-        return true;
+        if ($panel->getId() === 'admin') {
+            return $this->isSuperAdmin() || $this->hasPermissionTo('panel_admin');
+        } else {
+            return false;
+        }
     }
-
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->getMedia('avatars')?->first()?->getUrl() ?? $this->getMedia('avatars')?->first()?->getUrl('thumb') ?? null;
@@ -93,4 +92,11 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
             ->fit(Fit::Contain, 300, 300)
             ->nonQueued();
     }
+
+    // RELACIONES
+    public function empleado()
+    {
+        return $this->belongsTo(Empleado::class);
+    }
+
 }
