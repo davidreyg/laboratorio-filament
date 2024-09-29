@@ -1,0 +1,42 @@
+// https://aka.ms/devcontainer.json
+{
+	"name": "Existing Docker Compose (Extend)",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+	"service": "laboratorio.app",
+	"workspaceFolder": "/var/www/html",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"mikestead.dotenv",
+				"amiralizadeh9480.laravel-extra-intellisense",
+				"DEVSENSE.phptools-vscode",
+				"kisstkondoros.vscode-gutter-preview",
+				"vivaxy.vscode-conventional-commits",
+				"Gruntfuggly.todo-tree",
+				"bradlc.vscode-tailwindcss",
+				"shardulm94.trailing-spaces",
+				"redhat.vscode-yaml",
+				"ctf0.php-array-symbols",
+				"usernamehw.errorlens",
+				"ms-azuretools.vscode-docker",
+				"onecentlin.laravel-blade",
+				"codingyu.laravel-goto-view",
+				"ahinkle.laravel-model-snippets",
+				"shufo.vscode-blade-formatter",
+				"onecentlin.laravel5-snippets",
+				"pcbowers.alpine-intellisense",
+				"shd101wyy.markdown-preview-enhanced"
+			],
+			"settings": {
+				// "php.version": "8.3"
+			}
+		}
+	},
+	"remoteUser": "sail",
+	"postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true"
+	// "forwardPorts": [],
+	// "runServices": [],
+	// "shutdownAction": "none",
+}

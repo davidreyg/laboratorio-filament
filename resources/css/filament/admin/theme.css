@@ -1,0 +1,211 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+@import '/vendor/awcodes/filament-table-repeater/resources/css/plugin.css';
+@config 'tailwind.config.js';
+
+/* AUTH */
+.fi-logo {
+    @apply !h-10;
+}
+
+.fi-input  {
+    @apply read-only:cursor-not-allowed read-only:opacity-50 !important;
+}
+
+/* SIDEBAR */
+.fi-sidebar.fi-sidebar-open { @apply lg:!w-1/5 2xl:!w-1/5; }
+
+.fi-sidebar-nav-groups { @apply gap-y-4 }
+
+.fi-sidebar-header {
+    @apply py-2 !ring-0;
+}
+
+.fi-sidebar-group > .fi-sidebar-group-items { @apply gap-y-2; }
+
+.fi-topbar > nav, .fi-sidebar-header {
+    @apply bg-transparent ring-0 shadow-none !important;
+    transition: background-color 0.3s, top 0.3s;
+}
+
+.fi-topbar > nav.topbar-hovered, .fi-sidebar-header.topbar-hovered {
+    background-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+:is(.dark .fi-topbar > nav.topbar-hovered, .dark .fi-sidebar-header.topbar-hovered) {
+    background-color: rgba(10, 16, 33, 0.75) !important;
+}
+
+.fi-topbar > nav.topbar-scrolled, .fi-sidebar-header.topbar-scrolled {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+:is(.dark .fi-topbar > nav.topbar-scrolled, .dark .fi-sidebar-header.topbar-scrolled) {
+    background-color: rgba(10, 16, 33, 0.5) !important;
+}
+
+/* SIDEBAR ITEM */
+.fi-sidebar-item a {
+    @apply px-4 py-2 rounded-xl;
+}
+
+.es-report-card {
+    @apply md:!grid-cols-2;
+
+    .fi-fo-component-ctn {
+        @apply divide-y divide-gray-200 dark:divide-white/10 !gap-0;
+    }
+
+    .fi-section-content-ctn {
+        @apply md:!col-span-1;
+    }
+
+    .fi-section-content {
+        @apply !p-0;
+    }
+}
+
+/* .fi-sidebar-item a > span,
+.fi-sidebar-item a > svg {
+    @apply font-semibold dark:font-bold dark:text-gray-100;
+} */
+
+.fi-sidebar-item a:focus,
+.fi-sidebar-item a:hover {
+    @apply bg-primary-100 shadow-md dark:bg-primary-900 dark:shadow-lg transition-all ease-in-out duration-100 !important;
+}
+
+.fi-sidebar-item a:hover svg,
+.fi-sidebar-item a:focus span,
+.fi-sidebar-item a:hover span {
+    @apply text-primary-600 dark:text-gray-100 transition-all ease-in-out duration-100 !important;
+}
+
+.fi-sidebar-item-active a {
+    @apply shadow-md bg-primary-100 dark:bg-primary-900 dark:shadow-lg;
+}
+
+.fi-sidebar-item a:hover svg,
+.fi-sidebar-item a:focus svg,
+.fi-sidebar-item-active svg {
+    @apply !text-primary-500 dark:!text-primary-500 transition-all ease-in-out duration-300 !important;
+}
+.fi-sidebar.fi-sidebar-open {
+    .fi-sidebar-item a:hover svg,
+    .fi-sidebar-item a:focus svg,
+    .fi-sidebar-item-active svg {
+        @apply !ml-1;
+    }
+}
+
+/* Content */
+.fi-main {
+    @apply lg:pl-12 !important;
+}
+
+.fi-ta-ctn {
+    @apply shadow-xl;
+}
+
+.fi-header-heading {
+    @apply !text-2xl text-primary-600 dark:text-primary-400;
+}
+
+.fi-header-subheading {
+    @apply !text-sm;
+}
+
+/* Filament Actions */
+.fi-dropdown-trigger button.fi-btn {
+    @apply !p-1;
+}
+
+/* TABLE REPEATER*/
+
+.table-repeater-container {
+    @apply rounded-none ring-0;
+}
+
+.table-repeater-component {
+    @apply space-y-10;
+}
+
+.table-repeater-component ul {
+    @apply justify-start;
+}
+
+.table-repeater-row {
+    @apply divide-x-0 !important;
+}
+
+.table-repeater-column {
+    @apply py-2 !important;
+}
+
+.table-repeater-header {
+    @apply rounded-t-none !important;
+}
+
+.table-repeater-rows-wrapper {
+    @apply divide-gray-300 last:border-b last:border-gray-300 dark:divide-white/20 dark:last:border-white/20;
+}
+
+.table-repeater-header tr {
+    @apply divide-x-0 text-base sm:text-sm sm:leading-6 !important;
+}
+
+.table-repeater-header-column {
+    @apply ps-3 pe-3 font-semibold bg-gray-200 dark:bg-gray-800 rounded-none !important;
+}
+
+/*BACKGROUND*/
+
+.fi-body {
+    position: relative;
+    background-color: #E8E9EB;
+    z-index: 1;
+}
+
+.fi-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(99.6deg,
+            rgba(232, 233, 235, 1) 10.6%,
+            rgba(240, 241, 243, 1) 32.9%,
+            rgba(248, 249, 251, 0.7) 50%,
+            rgba(240, 241, 243, 1) 67.1%,
+            rgba(232, 233, 235, 1) 83.4%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+:is(.dark .fi-body) {
+    position: relative;
+    background-color: rgb(3, 7, 18);
+    z-index: 1;
+}
+
+:is(.dark .fi-body)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-image: radial-gradient(
+        ellipse at top right,
+        rgba(var(--primary-950), 1) 0%,
+        rgba(var(--primary-950), 0.9) 15%,
+        rgba(var(--primary-900), 0.7) 30%,
+        rgba(var(--primary-900), 0.5) 45%,
+        rgba(var(--primary-950), 0.3) 60%,
+        rgba(var(--primary-950), 0.1) 75%,
+        rgba(3,7,18,0) 100%
+    );
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
