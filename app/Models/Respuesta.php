@@ -25,4 +25,10 @@ class Respuesta extends Model
      * A resource key to be used in the serialized responses.
      */
     protected string $resourceKey = 'Respuesta';
+
+    public function examens()
+    {
+        return $this->belongsToMany(Examen::class)
+            ->as('examen_respuesta');
+    }
 }

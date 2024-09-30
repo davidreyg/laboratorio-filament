@@ -33,40 +33,27 @@ class ExamenResource extends Resource
     {
         return $form
             ->schema([
-                Tabs::make('f')->schema([
-                    Tab::make('Datos Generales')->schema([
-                        Select::make('categoria_id')->relationship('categoria', 'nombre'),
-                        Forms\Components\TextInput::make('codigo')
-                            ->required()
-                            ->numeric(),
-                        Forms\Components\TextInput::make('nombre')
-                            ->required()
-                            ->maxLength(200),
-                        Forms\Components\TextInput::make('precio')
-                            ->numeric()
-                            ->default(null),
-                        Forms\Components\Toggle::make('is_active')
-                            ->inline(false)
-                            ->label('¿Activo?')
-                            ->required(),
-                        Select::make('tipo')
-                            ->required()
-                            ->disabledOn('edit')
-                            ->options(TipoExamenEnum::class)
-                            ->live(),
-                    ])->columns(2),
-                    Tab::make('Unidades')
-                        ->visible(fn(Get $get) => $get('tipo') === TipoExamenEnum::UNIDAD->value)
-                        ->schema([
-                            Repeater::make('unidads')
-                                ->hiddenLabel()
-                                ->schema([
-
-                                ]),
-                        ])
-                ])
-            ])
-            ->columns(null);
+                Select::make('categoria_id')->relationship('categoria', 'nombre'),
+                Forms\Components\TextInput::make('codigo')
+                    ->required()
+                    ->unique('examens', 'codigo')
+                    ->numeric(),
+                Forms\Components\TextInput::make('nombre')
+                    ->required()
+                    ->maxLength(200),
+                Forms\Components\TextInput::make('precio')
+                    ->numeric()
+                    ->default(null),
+                Forms\Components\Toggle::make('is_active')
+                    ->inline(false)
+                    ->label('¿Activo?')
+                    ->required(),
+                Select::make('tipo')
+                    ->required()
+                    ->disabledOn('edit')
+                    ->options(TipoExamenEnum::class)
+                    ->live(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -116,6 +103,7 @@ class ExamenResource extends Resource
         return $page->generateNavigationItems([
             Pages\EditExamen::class,
             Pages\GestionarExamenUnidades::class,
+            Pages\GestionarExamenRespuestas::class,
         ]);
     }
 
@@ -126,6 +114,7 @@ class ExamenResource extends Resource
             'create' => Pages\CreateExamen::route('/create'),
             'edit' => Pages\EditExamen::route('/{record}/edit'),
             'unidades' => Pages\GestionarExamenUnidades::route('/{record}/unidades'),
+            'respuestas' => Pages\GestionarExamenRespuestas::route('/{record}/respuestas'),
         ];
     }
 }
