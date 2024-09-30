@@ -29,7 +29,7 @@ class ExamenSeeder extends Seeder
                 'precio' => '135',
                 'categoria_id' => 1,
                 'is_active' => 1,
-                'tipo' => TipoExamenEnum::STRING,
+                'tipo' => TipoExamenEnum::PADRE,
             ]
         );
         // $seccion = Seccion::create(['nombre' => 'Microbiologia']);
@@ -41,7 +41,7 @@ class ExamenSeeder extends Seeder
                 'precio' => '137',
                 'categoria_id' => 1,
                 'is_active' => 1,
-                'tipo' => TipoExamenEnum::STRING,
+                'tipo' => TipoExamenEnum::PADRE,
             ]
         );
         Examen::create([

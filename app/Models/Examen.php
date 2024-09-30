@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Examen extends Model
 {
+    use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
     use HasFactory;
     // protected $with = ['categoria', 'unidads',, 'respuestas'];
     public $timestamps = false;
