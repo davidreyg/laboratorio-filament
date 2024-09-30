@@ -86,7 +86,7 @@ class ConfigureCurrentPanel
             Table::$defaultTimeDisplayFormat = $timeFormat;
             $table
                 ->paginationPageOptions($paginationPageOptions)
-                ->defaultSort(column: 'id', direction: $defaultSort)
+                // ->defaultSort(column: 'id', direction: $defaultSort)
                 ->defaultPaginationPageOption($defaultPaginationPageOption)
                 ->extremePaginationLinks();
         }, isImportant: true);

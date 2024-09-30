@@ -25,4 +25,10 @@ class Unidad extends Model
      * A resource key to be used in the serialized responses.
      */
     protected string $resourceKey = 'Unidad';
+
+    public function examens()
+    {
+        return $this->belongsToMany(related: Examen::class)
+            ->withPivot(columns: ['minimo', 'maximo', 'tipo', 'operador']);
+    }
 }

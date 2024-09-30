@@ -11,10 +11,16 @@ enum TipoExamenEnum: string implements HasLabel
     case STRING = 'string';
     case UNIDAD = 'unidad';
     case RESPUESTA = 'respuesta';
+    case PADRE = 'padre';
     public const DEFAULT = self::STRING->value;
 
     public function getLabel(): ?string
     {
-        return (string) $this->value;
+        return (string) ucfirst($this->value);
+    }
+
+    public function getHijos(): array
+    {
+        return array_filter(TipoExamenEnum::cases(), fn($case) => $case !== TipoExamenEnum::PADRE);
     }
 }
