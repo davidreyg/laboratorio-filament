@@ -23,7 +23,7 @@ class GestionarExamenItems extends ManageRelatedRecords
 
     protected static string $relationship = 'children';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'tabler-flask';
 
     public static function getNavigationLabel(): string
     {
