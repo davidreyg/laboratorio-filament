@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ExamenResource\Pages;
+namespace App\Filament\Admin\Resources\ItemResource\Pages;
 
-use App\Filament\Admin\Resources\ExamenResource;
+use App\Filament\Admin\Resources\ItemResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Guava\FilamentNestedResources\Concerns\NestedPage;
 
-class EditExamen extends EditRecord
+class EditItem extends EditRecord
 {
     use NestedPage;
-    protected static string $resource = ExamenResource::class;
+    protected static string $resource = ItemResource::class;
 
     protected function getHeaderActions(): array
     {

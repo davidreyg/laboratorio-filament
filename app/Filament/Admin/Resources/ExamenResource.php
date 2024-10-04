@@ -18,11 +18,14 @@ use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Guava\FilamentNestedResources\Ancestor;
+use Guava\FilamentNestedResources\Concerns\NestedResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ExamenResource extends Resource
 {
+    use NestedResource;
     protected static ?string $model = Examen::class;
 
     protected static ?string $navigationIcon = 'tabler-test-pipe';
@@ -36,7 +39,7 @@ class ExamenResource extends Resource
                 Select::make('categoria_id')->relationship('categoria', 'nombre'),
                 Forms\Components\TextInput::make('codigo')
                     ->required()
-                    ->unique('examens', 'codigo')
+                    ->unique('examens', 'codigo', ignoreRecord: true)
                     ->numeric(),
                 Forms\Components\TextInput::make('nombre')
                     ->required()
@@ -104,6 +107,7 @@ class ExamenResource extends Resource
             Pages\EditExamen::class,
             Pages\GestionarExamenUnidades::class,
             Pages\GestionarExamenRespuestas::class,
+            Pages\GestionarExamenItems::class,
         ]);
     }
 
@@ -115,6 +119,15 @@ class ExamenResource extends Resource
             'edit' => Pages\EditExamen::route('/{record}/edit'),
             'unidades' => Pages\GestionarExamenUnidades::route('/{record}/unidades'),
             'respuestas' => Pages\GestionarExamenRespuestas::route('/{record}/respuestas'),
+
+            // In case of relation page.
+            // Make sure the name corresponds to the name of your actual relationship on the model.
+            'children' => Pages\GestionarExamenItems::route('/{record}/children'),
         ];
+    }
+
+    public static function getAncestor(): ?Ancestor
+    {
+        return null;
     }
 }

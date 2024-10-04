@@ -11,27 +11,23 @@ use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Guava\FilamentNestedResources\Concerns\NestedPage;
+use Guava\FilamentNestedResources\Concerns\NestedRelationManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class GestionarExamenRespuestas extends ManageRelatedRecords
+class GestionarExamenItems extends ManageRelatedRecords
 {
     use NestedPage;
+    use NestedRelationManager;
     protected static string $resource = ExamenResource::class;
 
-    protected static string $relationship = 'respuestas';
+    protected static string $relationship = 'children';
 
-    protected static ?string $navigationIcon = 'tabler-question-mark';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function getNavigationLabel(): string
     {
-        return 'Respuestas';
-    }
-
-    protected function authorizeAccess(): void
-    {
-        abort_unless($this->getRecord()->tipo === TipoExamenEnum::RESPUESTA->value, 403);
-        abort_unless(static::canAccess(['record' => $this->getRecord()]), 403);
+        return 'Items';
     }
 
     public function form(Form $form): Form
@@ -49,23 +45,34 @@ class GestionarExamenRespuestas extends ManageRelatedRecords
         return $table
             ->recordTitleAttribute('nombre')
             ->columns([
-                Tables\Columns\TextColumn::make('nombre'),
+                Tables\Columns\TextColumn::make('codigo')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('nombre')
+                    ->wrap()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('tipo')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('categoria.nombre')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
-                Tables\Actions\AttachAction::make()->preloadRecordSelect(),
+                Tables\Actions\AssociateAction::make(),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
-                Tables\Actions\DetachAction::make(),
-                // Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make(),
+                // Tables\Actions\DissociateAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DetachBulkAction::make(),
+                    // Tables\Actions\DissociateBulkAction::make(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -73,6 +80,13 @@ class GestionarExamenRespuestas extends ManageRelatedRecords
 
     public static function shouldRegisterNavigation($parameters = []): bool
     {
-        return $parameters['record']->tipo === TipoExamenEnum::RESPUESTA->value;
+        return $parameters['record']->tipo === TipoExamenEnum::PADRE->value;
+    }
+
+    protected function configureCreateAction(Tables\Actions\CreateAction $action): void
+    {
+        $action
+            ->authorize(static fn(ManageRelatedRecords $livewire): bool => $livewire->canCreate())
+            ->form(fn(Form $form): Form => $this->form($form->columns(2)));
     }
 }

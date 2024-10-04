@@ -17,11 +17,13 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Table;
+use Guava\FilamentNestedResources\Concerns\NestedPage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class GestionarExamenUnidades extends ManageRelatedRecords
 {
+    use NestedPage;
     protected static string $resource = ExamenResource::class;
 
     protected static string $relationship = 'unidads';
