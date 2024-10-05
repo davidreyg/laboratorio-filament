@@ -16,7 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class OrdenResource extends Resource
 {
     protected static ?string $model = Orden::class;
-
+    protected static ?string $pluralModelLabel = 'Ordenes de laboratorio';
+    // protected static ?string $modelLabel = 'exámen';
     protected static ?string $navigationIcon = 'tabler-book-2';
 
     public static function form(Form $form): Form

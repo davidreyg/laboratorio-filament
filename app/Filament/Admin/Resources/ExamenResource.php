@@ -27,6 +27,8 @@ class ExamenResource extends Resource
 {
     use NestedResource;
     protected static ?string $model = Examen::class;
+    protected static ?string $pluralModelLabel = 'Exámenes';
+    protected static ?string $modelLabel = 'exámen';
 
     protected static ?string $navigationIcon = 'tabler-test-pipe';
     protected static ?string $navigationGroup = 'Mantenimiento';
