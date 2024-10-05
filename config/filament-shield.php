@@ -68,10 +68,13 @@ return [
         ],
 
         'widgets' => [
-            'AccountWidget', 'FilamentInfoWidget',
+            'AccountWidget',
+            'FilamentInfoWidget',
         ],
 
-        'resources' => [],
+        'resources' => [
+            'ItemResource'
+        ],
     ],
 
     'discovery' => [
