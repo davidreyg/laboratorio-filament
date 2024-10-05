@@ -38,7 +38,7 @@ class Paciente extends Model
         return $this->nombres . ' ' . $this->apellido_paterno . ' ' . $this->apellido_materno;
     }
 
-    public function tipo_documento()
+    public function tipoDocumento()
     {
         return $this->belongsTo(TipoDocumento::class);
     }
