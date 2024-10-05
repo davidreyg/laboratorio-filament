@@ -5,6 +5,7 @@ namespace App\Filament\Admin\Resources;
 use App\Filament\Admin\Resources\OrdenResource\Pages;
 use App\Filament\Admin\Resources\OrdenResource\RelationManagers;
 use App\Models\Orden;
+use App\States\Orden\OrdenState;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -87,6 +88,9 @@ class OrdenResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('diagnostico')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('estado')
+                    ->badge()
+                    ->formatStateUsing(fn(OrdenState $state) => $state->display()),
             ])
             ->filters([
                 //

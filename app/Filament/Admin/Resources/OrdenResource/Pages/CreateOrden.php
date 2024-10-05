@@ -30,9 +30,6 @@ class CreateOrden extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['user_id'] = auth()->id();
-        //TODO: Manejar estados
-        $data['estado'] = 0;
-
         return $data;
     }
 

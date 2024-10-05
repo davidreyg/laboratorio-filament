@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\States\Orden\OrdenState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ModelStates\HasStates;
 
 class Orden extends Model
 {
     use HasFactory;
-    public final const PENDIENTE = 0;
-    public final const REGISTRADO = 1;
-    public final const VERIFICADO = 2;
+    use HasStates;
+
     public $timestamps = false;
     protected $fillable = [
         'diagnostico',
@@ -36,7 +37,7 @@ class Orden extends Model
     ];
 
     protected $casts = [
-
+        'estado' => OrdenState::class,
     ];
 
     public function examens()

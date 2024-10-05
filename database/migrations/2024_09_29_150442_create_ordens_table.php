@@ -30,7 +30,7 @@ return new class extends Migration {
             $table->foreign('verificador_id')->references('id')->on('users');
             $table->string('establecimiento_otro', 255)->nullable();
             $table->string('medico', 100);
-            $table->tinyInteger('estado');
+            $table->string('estado');
             $table->string('observaciones', 255)->nullable();
         });
     }
