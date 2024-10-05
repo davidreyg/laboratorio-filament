@@ -36,6 +36,7 @@
         "laravel/tinker": "^2.8",
         "league/commonmark": "^2.4",
         "lorisleiva/laravel-actions": "^2.8",
+        "novadaemon/filament-combobox": "^1.1",
         "ryangjchandler/blade-tabler-icons": "^2.3",
         "staudenmeir/laravel-adjacency-list": "^1.22"
     },
