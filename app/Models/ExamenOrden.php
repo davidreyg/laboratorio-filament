@@ -31,6 +31,12 @@ class ExamenOrden extends Pivot
         return $this->belongsTo(Examen::class);
     }
 
+    // Método para acceder a los children del examen asociado
+    public function examenChildren()
+    {
+        return $this->examen->children(); // Aquí accedes a los hijos del examen desde ExamenOrden
+    }
+
     public function orden()
     {
         return $this->belongsTo(Orden::class);
