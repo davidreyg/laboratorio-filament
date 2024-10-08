@@ -2,6 +2,8 @@
 
 namespace App\Filament\Admin\Resources\OrdenResource\Forms;
 use App\Filament\Admin\Resources\PacienteResource\Forms\PacienteForm;
+use App\Models\Examen;
+use App\Models\Orden;
 use App\Models\Paciente;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DatePicker;
@@ -12,6 +14,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Illuminate\Database\Eloquent\Builder;
 use Novadaemon\FilamentCombobox\Combobox;
 class OrdenSteps
 {
@@ -89,7 +92,22 @@ class OrdenSteps
                     Combobox::make('examens')
                         ->hiddenLabel()
                         ->minItems(1)
-                        ->relationship('examens', 'nombre')
+                        ->relationship('examens', 'nombre', fn(Builder $query) => $query->where('parent_id', null))
+                        ->saveRelationshipsUsing(function (Orden $record, $state) {
+                            $data = [];
+                            foreach ($state as $value) {
+                                $examen = Examen::find($value);
+                                // dump($examen->parent_id);
+                                if ($examen->childrenAndSelf->count() > 1) {
+                                    foreach ($examen->childrenAndSelf as $value) {
+                                        $data[] = $value->id;
+                                    }
+                                } else {
+                                    $data[] = $examen->id;
+                                }
+                            }
+                            $record->examens()->sync($data);
+                        })
                         ->boxSearchs()
                 ]),
         ];
