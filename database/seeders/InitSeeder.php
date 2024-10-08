@@ -17,6 +17,9 @@ class InitSeeder extends Seeder
         $establecimientos = base_path('database/sql/establecimientos.sql');
         $cargos = base_path('database/sql/cargos.sql');
         $empleados = base_path('database/sql/empleados.sql');
+        $respuestas = base_path('database/sql/respuestas.sql');
+        $unidades = base_path('database/sql/unidades.sql');
+        $examens = base_path('database/sql/examens.sql');
 
         if (file_exists($establecimientos)) {
             $sql = file_get_contents($establecimientos);
@@ -28,6 +31,18 @@ class InitSeeder extends Seeder
         }
         if (file_exists($empleados)) {
             $sql = file_get_contents($empleados);
+            \DB::unprepared($sql);
+        }
+        if (file_exists($respuestas)) {
+            $sql = file_get_contents($respuestas);
+            \DB::unprepared($sql);
+        }
+        if (file_exists($unidades)) {
+            $sql = file_get_contents($unidades);
+            \DB::unprepared($sql);
+        }
+        if (file_exists($examens)) {
+            $sql = file_get_contents($examens);
             \DB::unprepared($sql);
         }
     }
