@@ -54,6 +54,11 @@ class Orden extends Model
             ->using(ExamenOrden::class);
     }
 
+    public function ordenExamens()
+    {
+        return $this->hasMany(ExamenOrden::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ExamenOrden extends Pivot
 {
+    protected $table = 'examen_orden';
+    public $timestamps = false;
+
     public function getIsCompletedAttribute()
     {
         // Lógica para calcular si esta completado
@@ -21,5 +24,15 @@ class ExamenOrden extends Pivot
         }
 
         return false;
+    }
+
+    public function examen()
+    {
+        return $this->belongsTo(Examen::class);
+    }
+
+    public function orden()
+    {
+        return $this->belongsTo(Orden::class);
     }
 }
