@@ -12,7 +12,7 @@ enum OperadoresEnum: string implements HasLabel
     case MENOR_IGUAL = '<=';
     case MAYOR = '>';
     case MAYOR_IGUAL = '>=';
-    public const DEFAULT = self::MULTIVALOR->value;
+    // public const DEFAULT = self::MULTIVALOR->value;
 
     public function getLabel(): ?string
     {

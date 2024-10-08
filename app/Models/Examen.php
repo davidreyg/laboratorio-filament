@@ -18,6 +18,7 @@ class Examen extends Model
         'categoria_id',
         'is_active',
         'tipo',
+        'parent_id',
     ];
 
     protected $hidden = [
