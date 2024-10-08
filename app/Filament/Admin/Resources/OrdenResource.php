@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\OrdenResource\Pages;
+use App\Filament\Admin\Resources\OrdenResource\Pages\RegistrarResultados;
 use App\Filament\Admin\Resources\OrdenResource\RelationManagers;
 use App\Models\Orden;
 use App\States\Orden\OrdenState;
@@ -25,48 +26,6 @@ class OrdenResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('diagnostico')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('CI10')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('CPN')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('EG')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('codigo_atencion')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('numero_orden')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\DatePicker::make('fecha_registro')
-                    ->required(),
-                Forms\Components\TextInput::make('paciente_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('establecimiento_id')
-                    ->numeric()
-                    ->default(null),
-                Forms\Components\TextInput::make('user_id')
-                    ->required(),
-                Forms\Components\TextInput::make('registrador_id'),
-                Forms\Components\TextInput::make('verificador_id'),
-                Forms\Components\TextInput::make('establecimiento_otro')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('medico')
-                    ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('estado')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('observaciones')
-                    ->maxLength(255)
-                    ->default(null),
             ]);
     }
 
@@ -97,6 +56,7 @@ class OrdenResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('resultados')->url(fn(Orden $record): string => RegistrarResultados::getUrl(['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -118,6 +78,7 @@ class OrdenResource extends Resource
             'index' => Pages\ListOrdens::route('/'),
             'create' => Pages\CreateOrden::route('/create'),
             'edit' => Pages\EditOrden::route('/{record}/edit'),
+            'resultados' => Pages\RegistrarResultados::route('/{record}/resultados'),
         ];
     }
 }
