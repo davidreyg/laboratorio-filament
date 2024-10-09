@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Enums\Categoria\TipoCategoriaEnum;
 use App\Filament\Admin\Resources\CategoriaResource\Pages;
 use App\Filament\Admin\Resources\CategoriaResource\RelationManagers;
 use App\Models\Categoria;
@@ -27,6 +28,9 @@ class CategoriaResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(200),
+                Forms\Components\Select::make('tipo')
+                    ->options(TipoCategoriaEnum::class)
+                    ->required(),
             ]);
     }
 
@@ -36,6 +40,9 @@ class CategoriaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('tipo')
+                    ->badge()
+                    ->color(fn(Categoria $record) => $record->tipo === TipoCategoriaEnum::EXAMEN ? 'primary' : 'warning'),
             ])
             ->filters([
                 //
