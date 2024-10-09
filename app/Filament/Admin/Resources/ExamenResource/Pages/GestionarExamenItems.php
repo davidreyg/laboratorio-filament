@@ -4,15 +4,18 @@ namespace App\Filament\Admin\Resources\ExamenResource\Pages;
 
 use App\Enums\Examen\TipoExamenEnum;
 use App\Filament\Admin\Resources\ExamenResource;
+use App\Filament\Admin\Resources\ItemResource;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Table;
 use Guava\FilamentNestedResources\Concerns\NestedPage;
 use Guava\FilamentNestedResources\Concerns\NestedRelationManager;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class GestionarExamenItems extends ManageRelatedRecords
@@ -28,6 +31,28 @@ class GestionarExamenItems extends ManageRelatedRecords
     public static function getNavigationLabel(): string
     {
         return 'Items';
+    }
+
+    protected function configureEditAction(Tables\Actions\EditAction $action): void
+    {
+        parent::configureEditAction($action);
+
+        $action->url(
+            fn(Model $record) => ItemResource::getUrl(
+                'edit',
+                ['record' => $record],
+            )
+        );
+    }
+
+    protected function configureCreateAction(CreateAction $action): void
+    {
+
+        parent::configureCreateAction($action->url(
+            fn() => ExamenResource::getUrl("children.create", [
+                'record' => $this->getOwnerRecord(),
+            ])
+        ));
     }
 
     public function form(Form $form): Form
@@ -63,7 +88,7 @@ class GestionarExamenItems extends ManageRelatedRecords
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
-                Tables\Actions\AssociateAction::make(),
+                // Tables\Actions\AssociateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -81,12 +106,5 @@ class GestionarExamenItems extends ManageRelatedRecords
     public static function shouldRegisterNavigation($parameters = []): bool
     {
         return $parameters['record']->tipo === TipoExamenEnum::PADRE->value;
-    }
-
-    protected function configureCreateAction(Tables\Actions\CreateAction $action): void
-    {
-        $action
-            ->authorize(static fn(ManageRelatedRecords $livewire): bool => $livewire->canCreate())
-            ->form(fn(Form $form): Form => $this->form($form->columns(2)));
     }
 }

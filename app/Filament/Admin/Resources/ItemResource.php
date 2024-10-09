@@ -7,6 +7,8 @@ use App\Filament\Admin\Resources\ItemResource\RelationManagers;
 use App\Models\Examen;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Pages\Page;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,7 +21,7 @@ class ItemResource extends Resource
 {
     use NestedResource;
     protected static ?string $model = Examen::class;
-
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -56,12 +58,23 @@ class ItemResource extends Resource
         ];
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\EditItem::class,
+            Pages\GestionarItemUnidades::class,
+            Pages\GestionarItemRespuestas::class,
+        ]);
+    }
+
     public static function getPages(): array
     {
         return [
             // 'index' => Pages\ListItems::route('/'),
             'create' => Pages\CreateItem::route('/create'),
             'edit' => Pages\EditItem::route('/{record}/edit'),
+            'unidades' => Pages\GestionarItemUnidades::route('/{record}/unidades'),
+            'respuestas' => Pages\GestionarItemRespuestas::route('/{record}/respuestas'),
         ];
     }
 

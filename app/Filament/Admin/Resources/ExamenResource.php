@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Enums\Categoria\TipoCategoriaEnum;
 use App\Enums\Examen\TipoExamenEnum;
 use App\Filament\Admin\Resources\ExamenResource\Pages;
 use App\Filament\Admin\Resources\ExamenResource\RelationManagers;
@@ -38,7 +39,11 @@ class ExamenResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('categoria_id')->relationship('categoria', 'nombre'),
+                Select::make('categoria_id')->relationship(
+                    'categoria',
+                    'nombre',
+                    fn(Builder $query) => $query->where('tipo', TipoCategoriaEnum::EXAMEN->value)
+                ),
                 Forms\Components\TextInput::make('codigo')
                     ->required()
                     ->unique('examens', 'codigo', ignoreRecord: true)
@@ -88,6 +93,7 @@ class ExamenResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -125,6 +131,7 @@ class ExamenResource extends Resource
             // In case of relation page.
             // Make sure the name corresponds to the name of your actual relationship on the model.
             'children' => Pages\GestionarExamenItems::route('/{record}/children'),
+            'children.create' => Pages\CreateExamenItem::route('/{record}/children/create'),
         ];
     }
 
