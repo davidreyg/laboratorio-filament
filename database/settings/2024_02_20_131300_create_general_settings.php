@@ -2,15 +2,14 @@
 
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-return new class extends SettingsMigration
-{
+return new class extends SettingsMigration {
     public function up(): void
     {
-        $this->migrator->add('general.brand_name', 'SuperDuper Starter Kit');
+        $this->migrator->add('general.brand_name', 'Laboratorio');
         $this->migrator->add('general.brand_logo', 'sites/logo.png');
         $this->migrator->add('general.brand_logoHeight', '3rem');
         $this->migrator->add('general.site_active', true);
-        $this->migrator->add('general.site_favicon', 'sites/logo.ico');
+        $this->migrator->add('general.site_favicon', 'sites/favicon.ico');
         $this->migrator->add('general.site_theme', [
             "primary" => "rgb(19, 83, 196)",
             "secondary" => "rgb(255, 137, 84)",
