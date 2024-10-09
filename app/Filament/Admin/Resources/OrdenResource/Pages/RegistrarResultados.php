@@ -256,7 +256,9 @@ class RegistrarResultados extends EditRecord
                                     default => [TextInput::make('hola')],
                                 })
                             ])
-                                ->columnSpan(3)->columns(2)
+                                ->columnSpan(function (Get $get, ExamenOrden $record) {
+                                    return $record->examen->tipo === TipoExamenEnum::PADRE->value ? 3 : 1;
+                                })->columns(2)
                                 ->visible(fn(Get $get) => !$get('is_canceled'))
 
                         ])
