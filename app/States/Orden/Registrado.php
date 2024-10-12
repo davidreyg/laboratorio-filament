@@ -7,11 +7,21 @@ class Registrado extends OrdenState
 
     public function color(): string
     {
-        return 'info';
+        return 'warning';
     }
 
     public function display(): string
     {
         return 'Registrado';
+    }
+
+    public function action(): string
+    {
+        return 'Registrar';
+    }
+
+    public function icon(): string
+    {
+        return 'tabler-arrow-forward-up';
     }
 }

@@ -7,8 +7,11 @@ use App\Filament\Admin\Resources\OrdenResource\Pages\RegistrarResultados;
 use App\Filament\Admin\Resources\OrdenResource\RelationManagers;
 use App\Models\Orden;
 use App\States\Orden\OrdenState;
+use App\States\Orden\Registrado;
+use App\States\Orden\Verificado;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -55,8 +58,43 @@ class OrdenResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->hiddenLabel(),
+                Tables\Actions\DeleteAction::make()->hiddenLabel(),
                 Tables\Actions\Action::make('resultados')->url(fn(Orden $record): string => RegistrarResultados::getUrl(['record' => $record])),
+                Tables\Actions\Action::make('registrar')
+                    ->hiddenLabel()
+                    ->tooltip(fn(Orden $record): string => (new Registrado($record))->action())
+                    ->visible(fn(Orden $record): bool => $record->estado->canTransitionTo(Registrado::class, null))
+                    ->color(fn(Orden $record): string => (new Registrado($record))->color())
+                    ->icon(fn(Orden $record): string => (new Registrado($record))->icon())
+                    ->requiresConfirmation()
+                    ->action(function (Orden $record) {
+                        try {
+                            $record->estado->transitionTo(Registrado::class, null);
+                        } catch (\Throwable $th) {
+                            Notification::make('Error')
+                                ->danger()
+                                ->body($th->getMessage())
+                                ->send();
+                        }
+                    }),
+                Tables\Actions\Action::make('Verificar')
+                    ->hiddenLabel()
+                    ->tooltip(fn(Orden $record): string => (new Verificado($record))->action())
+                    ->visible(fn(Orden $record): bool => $record->estado->canTransitionTo(Verificado::class, null))
+                    ->color(fn(Orden $record): string => (new Verificado($record))->color())
+                    ->icon(fn(Orden $record): string => (new Verificado($record))->icon())
+                    ->requiresConfirmation()
+                    ->action(function (Orden $record) {
+                        try {
+                            $record->estado->transitionTo(Verificado::class, null);
+                        } catch (\Throwable $th) {
+                            Notification::make('Error')
+                                ->danger()
+                                ->body($th->getMessage())
+                                ->send();
+                        }
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -7,11 +7,21 @@ class Verificado extends OrdenState
 
     public function color(): string
     {
-        return 'info';
+        return 'success';
     }
 
     public function display(): string
     {
         return 'Verificado';
+    }
+
+    public function action(): string
+    {
+        return 'Verificar';
+    }
+
+    public function icon(): string
+    {
+        return 'tabler-check';
     }
 }

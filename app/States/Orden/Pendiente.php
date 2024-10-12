@@ -14,4 +14,9 @@ class Pendiente extends OrdenState
     {
         return 'Pendiente';
     }
+
+    public function icon(): string
+    {
+        return 'tabler-arrow-forward-up';
+    }
 }
