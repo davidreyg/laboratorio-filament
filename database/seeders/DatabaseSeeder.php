@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
         ]);
 
-        Artisan::call('shield:generate --all');
+        Artisan::call('shield:generate --all --ignore-existing-policies');
+
+        $this->call([
+            BasicPermissionsToRolesSeeder::class,
+        ]);
     }
 }
