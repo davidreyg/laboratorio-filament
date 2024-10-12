@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->globalSearch(false)
             ->maxContentWidth(MaxWidth::Full)
             ->passwordReset(RequestPasswordReset::class)
-            ->emailVerification(EmailVerification::class)
+            // ->emailVerification(EmailVerification::class)
             ->databaseNotifications()->databaseNotificationsPolling(null)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->sidebarCollapsibleOnDesktop()
