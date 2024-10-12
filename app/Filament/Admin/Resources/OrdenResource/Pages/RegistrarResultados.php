@@ -32,19 +32,14 @@ class RegistrarResultados extends EditRecord
     use EvaluatesClosures;
     protected static string $resource = OrdenResource::class;
 
-    protected function mutateFormDataBeforeFill(array $data): array
+    protected function authorizeAccess(): void
     {
-        // dd($data);
-        // $data['ordenExamens'][0] = ['nombre' => 's'];
-
-        return $data;
+        abort_unless(static::getResource()::can('registarResultados', $this->record), 403);
     }
-    protected function handleRecordUpdate(Model $record, array $data): Model
-    {
-        // dd($data);
-        $record->update($data);
 
-        return $record;
+    public static function shouldRegisterNavigation(array $parameters = []): bool
+    {
+        return static::getResource()::can('registarResultados', $parameters['record']);
     }
 
     public function form(Form $form): Form
@@ -57,6 +52,11 @@ class RegistrarResultados extends EditRecord
                     ->mutateRelationshipDataBeforeFillUsing(function (array $data, Orden $record): array {
                         $examen = $record->examens->find($data['examen_id']);
                         $data['nombre'] = $examen->nombre;
+                        // SETEAR LA PRIMERA UNIDAD EN CASO HAYA UNO
+                        if ($examen->unidads()->count() === 1) {
+                            # code...
+                            $data['unidad_id'] = $examen->unidads()->first()->id;
+                        }
                         return $data;
                     })
                     ->addable(false)

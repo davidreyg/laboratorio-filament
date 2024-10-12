@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Orden;
+use App\States\Orden\Pendiente;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OrdenPolicy
@@ -39,6 +40,10 @@ class OrdenPolicy
      */
     public function update(User $user, Orden $orden): bool
     {
+        if (!$orden->estado->equals(Pendiente::class)) {
+            return false;
+        }
+
         return $user->can('update_orden');
     }
 
@@ -104,5 +109,16 @@ class OrdenPolicy
     public function reorder(User $user): bool
     {
         return $user->can('reorder_orden');
+    }
+    /**
+     * Determine whether the user can reorder.
+     */
+
+    public function registrarResultados(User $user, Orden $orden): bool
+    {
+        if (!$orden->estado->equals(Pendiente::class)) {
+            return false;
+        }
+        return $user->can('registrar_resultados_orden');
     }
 }
