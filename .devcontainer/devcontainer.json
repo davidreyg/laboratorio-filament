@@ -30,6 +30,7 @@
 				"shd101wyy.markdown-preview-enhanced"
 			],
 			"settings": {
+				"editor.formatOnSave": true
 				// "php.version": "8.3"
 			}
 		}

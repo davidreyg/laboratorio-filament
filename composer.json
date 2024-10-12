@@ -20,6 +20,7 @@
     "require": {
         "php": "^8.2",
         "awcodes/filament-table-repeater": "^3.0",
+        "barryvdh/laravel-dompdf": "^3.0",
         "bezhansalleh/filament-shield": "^3.2",
         "codeat3/blade-fluentui-system-icons": "^1.32",
         "filament/filament": "^3.2",

@@ -9,6 +9,7 @@ use App\Models\Orden;
 use App\States\Orden\OrdenState;
 use App\States\Orden\Registrado;
 use App\States\Orden\Verificado;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -58,9 +59,12 @@ class OrdenResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->hiddenLabel(),
-                Tables\Actions\DeleteAction::make()->hiddenLabel(),
-                Tables\Actions\Action::make('resultados')->url(fn(Orden $record): string => RegistrarResultados::getUrl(['record' => $record])),
+                Tables\Actions\Action::make('resultados')
+                    ->hiddenLabel()
+                    ->tooltip('Registrar Resultados')
+                    ->icon('tabler-writing')
+                    ->color('warning')
+                    ->url(fn(Orden $record): string => RegistrarResultados::getUrl(['record' => $record])),
                 Tables\Actions\Action::make('registrar')
                     ->hiddenLabel()
                     ->tooltip(fn(Orden $record): string => (new Registrado($record))->action())
@@ -95,6 +99,14 @@ class OrdenResource extends Resource
                                 ->send();
                         }
                     }),
+                Tables\Actions\Action::make('imprimirOrden')
+                    ->hiddenLabel()
+                    ->tooltip('Imprimir Orden')
+                    ->color('info')
+                    ->icon('tabler-printer')
+                    ->url(fn(Orden $record) => route('orden.pdf.detalle', ['orden' => $record]), true),
+                Tables\Actions\EditAction::make()->hiddenLabel(),
+                Tables\Actions\DeleteAction::make()->hiddenLabel(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
