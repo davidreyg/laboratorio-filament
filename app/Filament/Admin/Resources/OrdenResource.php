@@ -103,6 +103,11 @@ class OrdenResource extends Resource
                     ->hiddenLabel()
                     ->tooltip('Imprimir Orden')
                     ->color('info')
+                    ->icon('tabler-printer'),
+                Tables\Actions\Action::make('imprimirResultados')
+                    ->hiddenLabel()
+                    ->tooltip('Imprimir Resultados')
+                    ->color('success')
                     ->icon('tabler-printer')
                     ->url(fn(Orden $record) => route('orden.pdf.detalle', ['orden' => $record]), true),
                 Tables\Actions\EditAction::make()->hiddenLabel()->tooltip('Editar'),
