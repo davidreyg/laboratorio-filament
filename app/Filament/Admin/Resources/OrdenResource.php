@@ -105,8 +105,8 @@ class OrdenResource extends Resource
                     ->color('info')
                     ->icon('tabler-printer')
                     ->url(fn(Orden $record) => route('orden.pdf.detalle', ['orden' => $record]), true),
-                Tables\Actions\EditAction::make()->hiddenLabel(),
-                Tables\Actions\DeleteAction::make()->hiddenLabel(),
+                Tables\Actions\EditAction::make()->hiddenLabel()->tooltip('Editar'),
+                Tables\Actions\DeleteAction::make()->hiddenLabel()->tooltip('Eliminar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -280,12 +280,12 @@ class RegistrarResultados extends EditRecord
                             ->icon(function (array $arguments, RegistrarResultados $livewire) {
                                 $statePath = $livewire->getFormStatePath();
                                 $x = data_get($livewire, $statePath . '.ordenExamens.' . $arguments['item'] . '.disabled');
-                                return $x ? 'fluentui-checkmark-circle-20-o' : 'fluentui-presence-blocked-10-o';
+                                return $x ? 'tabler-plug' : 'tabler-plug-off';
                             })
                             ->color(function (array $arguments, RegistrarResultados $livewire) {
                                 $statePath = $livewire->getFormStatePath();
                                 $x = data_get($livewire, $statePath . '.ordenExamens.' . $arguments['item'] . '.disabled');
-                                return $x ? 'primary' : 'danger';
+                                return $x ? 'success' : 'danger';
                             })
                             ->tooltip(function (array $arguments, RegistrarResultados $livewire) {
                                 $statePath = $livewire->getFormStatePath();
