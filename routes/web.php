@@ -56,4 +56,4 @@ Route::get('/ordens/{orden}/pdf/resultados', function (Orden $orden) {
         'Content-Type' => 'application/pdf',
         'Content-Disposition' => 'inline; filename="orden.pdf"',
     ]);
-})->name('orden.pdf.detalle');
+})->name('orden.pdf.resultado');
