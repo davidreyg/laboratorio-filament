@@ -16,10 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // FIXME: Esto deberia estar en un controller o un action / service
 Route::get('/ordens/{orden}/pdf/detalle', function (Orden $orden) {
     $categorias = $orden->examens()->with('categoria')->get()->pluck('categoria');
