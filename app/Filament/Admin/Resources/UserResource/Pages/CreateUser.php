@@ -19,7 +19,9 @@ class CreateUser extends CreateRecord
         return $this->getResource()::getUrl('index');
     }
 
-    protected function afterCreate(): void
+    /* FIXME: Cambiamos el metodo afterCreate para que noa fecte nada.
+              posteriormente. tendremos que actualizar el codigo. */
+    protected function afterCreateTemp(): void
     {
         $user = $this->record;
         $settings = app(MailSettings::class);
