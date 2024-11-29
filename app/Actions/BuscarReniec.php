@@ -10,7 +10,7 @@ use Symfony\Component\CssSelector\Exception\InternalErrorException;
 class BuscarReniec
 {
     use AsAction;
-    public function handle(int $dni): array
+    public function handle(string $dni): array
     {
         $response = Http::withOptions([
             'verify' => false,
