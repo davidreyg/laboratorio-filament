@@ -19,6 +19,7 @@ class Examen extends Model
         'is_active',
         'tipo',
         'parent_id',
+        'detalles',
     ];
 
     protected $hidden = [
@@ -26,7 +27,8 @@ class Examen extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'detalles' => 'array'
     ];
 
     /**

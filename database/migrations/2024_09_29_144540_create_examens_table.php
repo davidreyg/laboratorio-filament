@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('tipo', 50);
             $table->foreignId('categoria_id')->constrained();
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->json('detalles')->nullable();
             $table->foreign('parent_id')->references('id')->on('examens')->cascadeOnDelete();
         });
     }

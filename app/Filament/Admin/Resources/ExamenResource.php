@@ -12,6 +12,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Pages\Page;
@@ -63,6 +64,9 @@ class ExamenResource extends Resource
                     ->disabledOn('edit')
                     ->options(TipoExamenEnum::class)
                     ->live(),
+                Repeater::make('detalles')
+                    ->columnSpanFull()
+                    ->simple(TextInput::make('descripcion')),
             ]);
     }
 
